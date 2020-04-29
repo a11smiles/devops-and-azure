@@ -1,5 +1,5 @@
 # DevOps and Azure
-A four week discovery and exploration of DevOps proper and leveraging the Azure DevOps platform.
+A four-week discovery and exploration of DevOps proper and leveraging the Azure DevOps platform.
 
 This repository contains four PowerPoint decks and sample source code for reference. The material is provided as-is and without implied or expressed warranty. The content referenced may change.
 
