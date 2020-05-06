@@ -38,7 +38,7 @@
           "dependencies": {
             "Microsoft.ApplicationInsights.AspNetCore": {
               "target": "Package",
-              "version": "[*, )"
+              "version": "[2.14.0, )"
             },
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",

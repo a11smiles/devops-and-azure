@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using demo_web.Models;
 using Microsoft.ApplicationInsights;
+using Newtonsoft.Json;
 
 namespace demo_web.Controllers
 {
@@ -48,15 +49,24 @@ namespace demo_web.Controllers
             }
             catch (Exception e) {
                 e.Data.Add("CalcsData", calcs);
-                _telemetry.TrackException(e, null, null);
+
+                Dictionary<string, string> props = new Dictionary<string, string>();
+                foreach(string key in e.Data.Keys)
+                    props.Add(key, JsonConvert.SerializeObject(e.Data[key]));
+
+                _telemetry.TrackException(e, props, null);
+
                 throw;
             }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
-        {
+        {   
+
+            _telemetry.TrackException(e, null, null);
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
