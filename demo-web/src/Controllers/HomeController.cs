@@ -49,13 +49,7 @@ namespace demo_web.Controllers
             }
             catch (Exception e) {
                 e.Data.Add("CalcsData", calcs);
-/*
-                Dictionary<string, string> props = new Dictionary<string, string>();
-                foreach(string key in e.Data.Keys)
-                    props.Add(key, JsonConvert.SerializeObject(e.Data[key]));
 
-                _telemetry.TrackException(e, props, null);
-*/
                 throw;
             }
         }
