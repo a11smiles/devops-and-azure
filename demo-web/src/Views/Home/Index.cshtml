@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model demo_web.Models.CalcModel
+
+<div class="text-center">
+    <h1 class="display-4">Calculator Demo</h1>
+    <p>This application demonstrates capturing error information and sending telemetry to Azure DevOps.</p>
+
+    @using (Html.BeginForm("calcForm", "Home", FormMethod.Post)) 
+    {
+        @Html.TextBoxFor(m => m.Num1, null, new { style = "width:100px;margin-right:20px;" } )
+        <span> / </span>
+        @Html.TextBoxFor(m => m.Num2, null, new { style = "width:100px;margin-left:20px;" } )
+        <br /><br />
+        <input type="submit" value="Calculate" style="width:150px;">
+    }
+
+    @if (Model != null && Model.Result != default(decimal)) {
+        <br /><br />
+        <h2>Result: @Model.Result.ToString()</h2>
+    }
+</div>
