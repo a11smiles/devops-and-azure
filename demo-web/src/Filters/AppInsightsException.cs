@@ -19,6 +19,6 @@ public class CustomExceptionFilter : ExceptionFilterAttribute {
         foreach(string key in context.Exception.Data.Keys)
             props.Add(key, JsonConvert.SerializeObject(context.Exception.Data[key]));
 
-        _telemetry.TrackException(context.Exception, props, null)
+        _telemetry.TrackException(context.Exception, props, null);
     }
 }
