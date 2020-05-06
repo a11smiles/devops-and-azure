@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,16 @@ namespace demo_web.Filters
 
         public override void OnException(ExceptionContext context)
         {
+            // Create Correlation Id
+            string corrId = Guid.NewGuid().ToString();
+
             // Inform app engine that exception is handled so App Insights doesn't log exception twice
             context.ExceptionHandled = true;
 
-            // Add custom data to App Insights 'customDimensions'
+            // Add Correlation Id and custom data to App Insights 'customDimensions'
             Dictionary<string, string> props = new Dictionary<string, string>();
+            props.Add("Correlation Id", corrId);
+
             foreach (string key in context.Exception.Data.Keys)
                 props.Add(key, JsonConvert.SerializeObject(context.Exception.Data[key]));
 
@@ -30,7 +36,7 @@ namespace demo_web.Filters
             _telemetry.TrackException(context.Exception, props, null);
 
             // Redirect to error page
-            context.Result = new RedirectToRouteResult(new { area = "", controller = "home", action = "error" });
+            context.Result = new RedirectToRouteResult(new { area = "", controller = "home", action = "error", id = corrId });
         }
     }
 }
