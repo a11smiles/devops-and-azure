@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using demo_web.Models;
+using Microsoft.ApplicationInsights;
 
 namespace demo_web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly TelemetryClient _telemetry;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, TelemetryClient telemetry)
         {
             _logger = logger;
+            _telemetry = telemetry;
         }
 
         public IActionResult Index()
@@ -36,7 +39,7 @@ namespace demo_web.Controllers
                     throw new DivideByZeroException("Denominator cannot be 0.");
                 else 
                     calcs.Result = num1 / num2;
-                    
+
                 return View(
                     "Index",
                     calcs
@@ -45,6 +48,7 @@ namespace demo_web.Controllers
             }
             catch (Exception e) {
                 e.Data.Add("CalcsData", calcs);
+                _telemetry.TrackException(e, null, null);
                 throw;
             }
         }
