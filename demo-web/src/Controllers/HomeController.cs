@@ -34,12 +34,14 @@ namespace demo_web.Controllers
 
                 if (!Decimal.TryParse(calcs.Num1, out num1) || !Decimal.TryParse(calcs.Num2, out num2))
                     throw new ArgumentException("Value must be a number.");
-                else if (num1 > 100 || num1 < 0 || num2 > 100 || num2 < 0)
+                
+                if (num1 > 100 || num1 < 0 || num2 > 100 || num2 < 0)
                     throw new ArithmeticException("Value out of range.");
-                else if (num2 == 0)
+                
+                if (num2 == 0)
                     throw new DivideByZeroException("Denominator cannot be 0.");
-                else 
-                    calcs.Result = num1 / num2;
+
+                calcs.Result = num1 / num2;
 
                 return View(
                     "Index",
@@ -49,6 +51,7 @@ namespace demo_web.Controllers
             }
             catch (Exception e) {
                 e.Data.Add("CalcsData", calcs);
+                e.Data.Add("ExceptionMessage", e.Message);
 
                 throw;
             }
