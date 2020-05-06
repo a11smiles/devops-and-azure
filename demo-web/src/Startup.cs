@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using demo_web.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,7 +26,9 @@ namespace demo_web
         {
             services.AddApplicationInsightsTelemetry();
             
-            var mvcBuilder = services.AddControllersWithViews();
+            var mvcBuilder = services.AddControllersWithViews(opts => {
+                opts.Filters.Add<AppInsightsExceptionFilter>();
+            });
 
             #if DEBUG
                 mvcBuilder.AddRazorRuntimeCompilation();

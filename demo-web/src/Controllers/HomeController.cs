@@ -30,9 +30,9 @@ namespace demo_web.Controllers
         public IActionResult CalcForm(Models.CalcModel calcs)
         {
             try {
-                int num1, num2;
+                decimal num1, num2;
 
-                if (!Int32.TryParse(calcs.Num1, out num1) || !Int32.TryParse(calcs.Num2, out num2))
+                if (!Decimal.TryParse(calcs.Num1, out num1) || !Decimal.TryParse(calcs.Num2, out num2))
                     throw new ArgumentException("Value must be a number.");
                 else if (num1 > 100 || num1 < 0 || num2 > 100 || num2 < 0)
                     throw new ArithmeticException("Value out of range.");
@@ -49,13 +49,13 @@ namespace demo_web.Controllers
             }
             catch (Exception e) {
                 e.Data.Add("CalcsData", calcs);
-
+/*
                 Dictionary<string, string> props = new Dictionary<string, string>();
                 foreach(string key in e.Data.Keys)
                     props.Add(key, JsonConvert.SerializeObject(e.Data[key]));
 
                 _telemetry.TrackException(e, props, null);
-
+*/
                 throw;
             }
         }
