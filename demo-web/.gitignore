@@ -4,3 +4,7 @@
 [Rr]eleases/
 [Bb]in/
 [Oo]bj/
+
+local.tfvars
+.terraform
+terraform.tfstate

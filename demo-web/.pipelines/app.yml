@@ -1,0 +1,57 @@
+trigger:
+- master
+
+stages:
+- stage: Build
+  jobs:
+    - job: Build
+
+      pool:
+        vmImage: 'ubuntu-latest'
+
+      steps:
+      - task: NuGetToolInstaller@0
+        displayName: 'Use NuGet 4.4.1'
+        inputs:
+          versionSpec: 4.4.1
+
+      - task: NuGetCommand@2
+        displayName: 'NuGet restore'
+        inputs:
+          restoreSolution: 'demo-web/src/demo-web.csproj'
+
+      - task: VSBuild@1
+        displayName: 'build solution'
+        inputs:
+          solution: 'demo-web/src/demo-web.csproj'
+          msbuildArgs: '/p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl="$(Agent.TempDirectory)\WebAppContent\\"'
+          platform: '$(BuildPlatform)'
+          configuration: '$(BuildConfiguration)'
+
+      - task: VSTest@2
+        displayName: 'unit tests'
+        inputs:
+          testAssemblyVer2: |
+          **\$(BuildConfiguration)\*test*.dll
+          !**\obj\**
+          platform: '$(BuildPlatform)'
+          configuration: '$(BuildConfiguration)'
+
+      - task: ArchiveFiles@2
+        displayName: 'archive files'
+        inputs:
+          rootFolderOrFile: '$(Agent.TempDirectory)\WebAppContent'
+          includeRootFolder: false
+
+      - task: PublishSymbols@2
+        displayName: 'publish symbols path'
+        inputs:
+          SearchPattern: '**\bin\**\*.pdb'
+          PublishSymbols: false
+        continueOnError: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'publish artifact: drop'
+        inputs:
+          PathtoPublish: '$(build.artifactstagingdirectory)'
+        condition: succeededOrFailed()

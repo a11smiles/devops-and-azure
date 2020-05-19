@@ -1,0 +1,37 @@
+trigger:
+- master
+
+stages:
+- stage: Build
+  jobs:
+    - job: Build
+
+      pool:
+        vmImage: 'ubuntu-latest'
+
+      steps:
+      - script: |
+          echo '##vso[task.setvariable variable=ARM_CLIENT_ID]$(ARM-CLIENT-ID)'
+          echo '##vso[task.setvariable variable=ARM_CLIENT_SECRET]$(ARM-CLIENT-SECRET)'
+          echo '##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]$(ARM-SUBSCRIPTION-ID)'
+          echo '##vso[task.setvariable variable=ARM_TENANT_ID]$(ARM-TENANT-ID)'
+        displayName: 'set azure creds'
+
+      - script: |
+          echo '##vso[task.setvariable variable=ARM_ACCESS_KEY]$(STORAGE-ACCESS-KEY)'
+        displayName: 'set access key for storage'
+
+      - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+        inputs: 
+          terraformVersion: 0.12.6
+        displayName: 'install Terraform'
+
+      - script: |
+          terraform init -backend-config=states/sbx.hcl
+          terraform plan -var-file="terraform.tfvars" -var 'subscription_id=$(ARM-SUBSCRIPTION-ID)' -var 'tenant_id=$(ARM-TENANT-ID)' -out=terraform.plan
+        displayName: 'init and validate scripts'
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathtoPublish: 'terraform.plan'
+          artifactName: 'drop'
