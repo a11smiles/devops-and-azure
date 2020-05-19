@@ -27,11 +27,12 @@ stages:
         displayName: 'install Terraform'
 
       - script: |
+          cd demo-web/templates
           terraform init -backend-config=states/sbx.hcl
           terraform plan -var-file="terraform.tfvars" -var 'subscription_id=$(ARM-SUBSCRIPTION-ID)' -var 'tenant_id=$(ARM-TENANT-ID)' -out=terraform.plan
         displayName: 'init and validate scripts'
 
       - task: PublishBuildArtifacts@1
         inputs:
-          pathtoPublish: 'terraform.plan'
+          pathtoPublish: 'demo-web/templates/terraform.plan'
           artifactName: 'drop'
