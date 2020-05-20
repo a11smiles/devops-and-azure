@@ -43,13 +43,6 @@ stages:
           rootFolderOrFile: '$(Agent.TempDirectory)\WebAppContent'
           includeRootFolder: false
 
-      - task: PublishSymbols@2
-        displayName: 'publish symbols path'
-        inputs:
-          SearchPattern: '**\bin\**\*.pdb'
-          PublishSymbols: false
-        continueOnError: true
-
       - task: PublishBuildArtifacts@1
         displayName: 'publish artifact: drop'
         inputs:
