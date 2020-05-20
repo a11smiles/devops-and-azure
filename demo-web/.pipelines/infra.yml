@@ -31,6 +31,7 @@ stages:
           terraform init -backend-config=states/dev.hcl
           terraform plan -var-file="terraform.tfvars" -var 'subscription_id=$(ARM-SUBSCRIPTION-ID)' -var 'tenant_id=$(ARM-TENANT-ID)'
           rm -r .terraform
+          rm terraform.tfstate.backup
         displayName: 'init and validate scripts'
 
       - task: PublishBuildArtifacts@1
