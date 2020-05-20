@@ -1,3 +1,7 @@
+terraform {
+  backend "azurerm" {}
+}
+
 provider "azurerm" {
   version = "=1.32.1"
   subscription_id = "${var.subscription_id}"
