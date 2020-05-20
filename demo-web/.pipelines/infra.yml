@@ -28,7 +28,7 @@ stages:
 
       - script: |
           cd demo-web/templates
-          terraform init -backend-config=states/sbx.hcl
+          terraform init -backend-config=states/dev.hcl
           terraform plan -var-file="terraform.tfvars" -var 'subscription_id=$(ARM-SUBSCRIPTION-ID)' -var 'tenant_id=$(ARM-TENANT-ID)' -out=terraform.plan
           rm -r .terraform
         displayName: 'init and validate scripts'
