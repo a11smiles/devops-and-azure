@@ -32,10 +32,10 @@ stages:
         displayName: 'unit tests'
         inputs:
           testAssemblyVer2: |
-          **\$(BuildConfiguration)\*test*.dll
-          !**\obj\**
-          platform: '$(BuildPlatform)'
-          configuration: '$(BuildConfiguration)'
+            **\$(BuildConfiguration)\*test*.dll
+            !**\obj\**
+            platform: '$(BuildPlatform)'
+            configuration: '$(BuildConfiguration)'
 
       - task: ArchiveFiles@2
         displayName: 'archive files'
