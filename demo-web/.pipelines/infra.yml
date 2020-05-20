@@ -30,7 +30,7 @@ stages:
           cd demo-web/templates
           terraform init -backend-config=states/sbx.hcl
           terraform plan -var-file="terraform.tfvars" -var 'subscription_id=$(ARM-SUBSCRIPTION-ID)' -var 'tenant_id=$(ARM-TENANT-ID)' -out=terraform.plan
-          rm -s .terraform
+          rm -r .terraform
         displayName: 'init and validate scripts'
 
       - task: PublishBuildArtifacts@1
