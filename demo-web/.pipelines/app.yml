@@ -21,18 +21,18 @@ stages:
           restoreSolution: 'demo-web/demo-web.sln'
 
       - task: DotNetCoreCLI@2
+        displayName: 'dotnet test'
+        inputs:
+          command: custom
+          projects: 'demo-web/tests/demo-web-tests.csproj'
+          custom: 'test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov'
+
+      - task: DotNetCoreCLI@2
         displayName: 'dotnet publish'
         inputs:
           projects: 'demo-web/src/demo-web.csproj'
           arguments: '--configuration $(BuildConfiguration --output "$(Agent.TempDirectory)\WebAppContent\"'
 
-      - task: DotNetCoreCLI@2
-        displayName: 'dotnet build copy'
-        inputs:
-          command: custom
-          projects: 'demo-web/tests/demo-web-tests.csproj'
-          custom: 'test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov'
-          
       - task: ArchiveFiles@2
         displayName: 'archive files'
         inputs:
