@@ -149,5 +149,21 @@ namespace demo_web_tests
             Assert.IsType<CalcModel>(((ViewResult)viewResult).Model);
             Assert.Equal(result, ((CalcModel)((ViewResult)viewResult).Model).Result);
         }
+
+        [Fact]
+        public void CalcForm_Error_ReturnsView()
+        {
+            // Arrange
+            var homeController = new HomeController(_fixture.Logger.Object, _fixture.TelemetryClient);
+
+            // Act
+            var errorResult = homeController.Error("242b84cf-0104-4018-903f-dd4e6bc3524f");
+
+            // Assert
+            Assert.IsType<ViewResult>(errorResult);
+            Assert.IsType<ErrorViewModel>(((ViewResult)errorResult).Model);
+            Assert.Equal("242b84cf-0104-4018-903f-dd4e6bc3524f", ((ErrorViewModel)((ViewResult)errorResult).Model).RequestId);
+            Assert.True(((ErrorViewModel)((ViewResult)errorResult).Model).ShowRequestId);
+        }
     }
 }
