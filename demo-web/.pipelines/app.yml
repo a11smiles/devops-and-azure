@@ -29,6 +29,7 @@ stages:
 
       - script: |
           dotnet reportgenerator "-reports:$(Build.SourcesDirectory)/TestResults/Coverage/coverage.cobertura.xml" "-targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports" -tag:$(Build.BuildNumber) -reportTypes:htmlInline
+        workingDirectory: $(Build.SourcesDirectory)/demo-web/tests
         displayName: 'dotnet reportgenerator'
 
       - task: PublishTestResults@2
@@ -36,7 +37,7 @@ stages:
           testRunner: VSTest
           testResultsFiles: '**/*.trx'
           failTaskOnFailedTests: true
-          
+
       - task: PublishCodeCoverageResults@1
         inputs:
           codeCoverageTool: 'cobertura'
