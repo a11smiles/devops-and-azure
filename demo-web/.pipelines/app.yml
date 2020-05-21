@@ -37,6 +37,7 @@ stages:
           testRunner: VSTest
           testResultsFiles: '**/*.trx'
           failTaskOnFailedTests: true
+        displayName: 'publish test results'
 
       - task: PublishCodeCoverageResults@1
         inputs:
@@ -44,6 +45,7 @@ stages:
           summaryFileLocation: $(Build.SourcesDirectory)/TestResults/Coverage/**/coverage.cobertura.xml
           reportDirectory: $(Build.SourcesDirectory)/TestResults/Coverage/Reports
           failIfCoverageEmpty: false 
+        displayName: 'publish code coverage results'
 
       - task: DotNetCoreCLI@2
         displayName: 'dotnet publish'

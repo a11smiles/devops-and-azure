@@ -37,6 +37,19 @@ namespace demo_web_tests
         }
 
         [Fact]
+        public void CalcForm_Index_ReturnsView()
+        {
+            // Arrange
+            var homeController = new HomeController(_fixture.Logger.Object, _fixture.TelemetryClient);
+
+            // Act
+            var result = homeController.Index();
+
+            // Assert
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
         public void CalcForm_Val1NaN_ThrowsArgumentException()
         {
             // Arrange
