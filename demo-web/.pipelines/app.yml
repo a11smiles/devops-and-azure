@@ -18,25 +18,21 @@ stages:
       - task: NuGetCommand@2
         displayName: 'NuGet restore'
         inputs:
-          restoreSolution: 'demo-web/src/demo-web.csproj'
+          restoreSolution: 'demo-web/demo-web.sln'
 
-      - task: VSBuild@1
-        displayName: 'build solution'
+      - task: DotNetCoreCLI@2
+        displayName: 'dotnet publish'
         inputs:
-          solution: 'demo-web/src/demo-web.csproj'
-          msbuildArgs: '/p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl="$(Agent.TempDirectory)\WebAppContent\\"'
-          platform: '$(BuildPlatform)'
-          configuration: '$(BuildConfiguration)'
+          projects: 'demo-web/src/demo-web.csproj'
+          arguments: '--configuration $(BuildConfiguration --output "$(Agent.TempDirectory)\WebAppContent\"'
 
-      - task: VSTest@2
-        displayName: 'unit tests'
+      - task: DotNetCoreCLI@2
+        displayName: 'dotnet build copy'
         inputs:
-          testAssemblyVer2: |
-            **\$(BuildConfiguration)\*test*.dll
-            !**\obj\**
-            platform: '$(BuildPlatform)'
-            configuration: '$(BuildConfiguration)'
-
+          command: custom
+          projects: 'demo-web/tests/demo-web-tests.csproj'
+          custom: 'test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov'
+          
       - task: ArchiveFiles@2
         displayName: 'archive files'
         inputs:
