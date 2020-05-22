@@ -3,7 +3,7 @@ resource "azurerm_app_service_plan" "site" {
     location            = "${var.location}"
     resource_group_name = "${var.azurerm_resource_group_name}"
     tags                = {
-        deployment = "1.0.0"
+        deployment = "1.0.1"
     }
 
     sku {
