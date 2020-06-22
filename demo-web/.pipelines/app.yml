@@ -49,6 +49,7 @@ stages:
 
       - task: DotNetCoreCLI@2
         displayName: 'dotnet publish'
+        command: 'publish'
         inputs:
           projects: 'demo-web/src/demo-web.csproj'
           arguments: '--configuration $(BuildConfiguration) --output "$(Agent.TempDirectory)\WebAppContent\"'
