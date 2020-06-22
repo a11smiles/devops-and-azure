@@ -50,8 +50,8 @@ namespace demo_web.Controllers
 
             }
             catch (Exception e) {
-                e.Data.Add("CalcsData", calcs);
-                e.Data.Add("ExceptionMessage", e.Message);
+//                e.Data.Add("CalcsData", calcs);
+//                e.Data.Add("ExceptionMessage", e.Message);
 
                 throw;
             }
