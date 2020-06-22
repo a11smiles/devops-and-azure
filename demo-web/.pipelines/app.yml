@@ -53,6 +53,7 @@ stages:
           command: publish
           projects: 'demo-web/src/demo-web.csproj'
           arguments: '--configuration $(BuildConfiguration) --output "dist"'
+          zipAfterPublish: false
           modifyOutputPath: false
 
       - task: ArchiveFiles@2
