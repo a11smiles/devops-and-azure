@@ -27,7 +27,7 @@ namespace demo_web
             services.AddApplicationInsightsTelemetry();
             
             var mvcBuilder = services.AddControllersWithViews(opts => {
-//                opts.Filters.Add<AppInsightsExceptionFilter>();
+                opts.Filters.Add<AppInsightsExceptionFilter>();
             });
 
             #if DEBUG
