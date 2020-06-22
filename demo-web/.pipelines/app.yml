@@ -53,11 +53,12 @@ stages:
           command: publish
           projects: 'demo-web/src/demo-web.csproj'
           arguments: '--configuration $(BuildConfiguration) --output "dist"'
+          modifyOutputPath: false
 
       - task: ArchiveFiles@2
         displayName: 'archive files'
         inputs:
-          rootFolderOrFile: '$(Agent.TempDirectory)\WebAppContent'
+          rootFolderOrFile: '$(Build.SourcesDirectory)\dist'
           includeRootFolder: false
 
       - task: PublishBuildArtifacts@1
