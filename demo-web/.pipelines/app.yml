@@ -51,7 +51,7 @@ stages:
         displayName: 'dotnet publish'
         inputs:
           projects: 'demo-web/src/demo-web.csproj'
-          arguments: '--configuration $(BuildConfiguration --output "$(Agent.TempDirectory)\WebAppContent\"'
+          arguments: '--configuration $(BuildConfiguration) --output "$(Agent.TempDirectory)\WebAppContent\"'
 
       - task: ArchiveFiles@2
         displayName: 'archive files'
