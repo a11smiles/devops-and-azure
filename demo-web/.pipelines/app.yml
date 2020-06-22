@@ -52,7 +52,7 @@ stages:
         inputs:
           command: publish
           projects: 'demo-web/src/demo-web.csproj'
-          arguments: '--configuration $(BuildConfiguration) --output "$(Agent.TempDirectory)\WebAppContent\"'
+          arguments: '--configuration $(BuildConfiguration) --output "dist"'
 
       - task: ArchiveFiles@2
         displayName: 'archive files'
